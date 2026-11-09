@@ -1,3 +1,4 @@
+import cors from "cors";
 import "dotenv/config";
 import express, {
   type Request,
@@ -26,6 +27,7 @@ if (!process.env.JWT_SECRET) {
 const app: Application = express();
 const PORT: number = Number(process.env.PORT) || 3000;
 
+app.use(cors({ origin: process.env.CORS_ORIGIN }));
 app.use(express.json());
 
 // Dokumentasi API (Swagger UI)
