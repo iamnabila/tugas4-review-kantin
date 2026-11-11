@@ -1,1 +1,23 @@
 @import "tailwindcss";
+
+@theme {
+  --color-bata: #bf4e37;
+  --color-kunyit: #e9c46a;
+  --color-daun: #8ab17d;
+  --color-kertas: #fbfaf7;
+  --color-arang: #1e1e1e;
+
+  --font-sans: "Archivo", system-ui, sans-serif;
+  --font-display: "Archivo Black", "Archivo", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+
+  --shadow-kotak-sm: 4px 4px 0 #1e1e1e;
+  --shadow-kotak: 6px 6px 0 #1e1e1e;
+  --shadow-kotak-lg: 8px 8px 0 #1e1e1e;
+}
+
+@layer base {
+  body {
+    @apply bg-kertas text-arang font-sans;
+  }
+}
