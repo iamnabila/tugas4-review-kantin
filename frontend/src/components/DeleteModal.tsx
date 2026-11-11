@@ -24,9 +24,7 @@ export default function DeleteModal({
         <h2 id="hapus-judul" className={`${ui.title} text-2xl`}>
           Hapus {name}?
         </h2>
-        <p>
-          Warung ini akan dihapus dari database dan tidak bisa dikembalikan.
-        </p>
+        <p>Data warung akan dihapus permanen dan tidak bisa dikembalikan.</p>
         <div className="flex gap-3">
           <button
             type="button"

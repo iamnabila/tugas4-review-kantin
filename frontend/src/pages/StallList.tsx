@@ -80,15 +80,15 @@ export default function StallList() {
           <br />
           Warung
         </h1>
-        <p>Pilih warung, lihat ratingnya, lalu putuskan makan siang.</p>
+        <p>Temukan warung favorit berdasarkan rating dan ulasan.</p>
 
         <label className="flex flex-col gap-2">
-          <span className={ui.eyebrow}>Cari nama</span>
+          <span className={ui.eyebrow}>Cari warung</span>
           <input
             type="search"
             value={searchInput}
             onChange={(e) => setSearchInput(e.target.value)}
-            placeholder="ketik nama warung"
+            placeholder="Nama warung"
             className={ui.input}
           />
         </label>
@@ -128,20 +128,21 @@ export default function StallList() {
         className="flex-[999_1_640px] min-w-0"
       >
         {loading ? (
-          <Loading text="Memuat papan warung…" />
+          <Loading text="Memuat daftar warung…" />
         ) : error ? (
           <ErrorMessage message={error} onRetry={load} />
         ) : stalls.length === 0 ? (
           isFiltered ? (
             <EmptyState
-              message="Nggak ada warung yang cocok dengan pencarianmu. Coba kata lain atau pilih kategori Semua."
-              actionLabel="Hapus pencarian"
+              title="Tidak ditemukan"
+              message="Coba kata kunci lain atau tampilkan semua kategori."
+              actionLabel="Tampilkan semua"
               onAction={resetFilter}
             />
           ) : (
             <EmptyState
-              title="Kosong."
-              message="Belum ada warung yang terdaftar."
+              title="Belum ada warung"
+              message="Warung yang terdaftar akan muncul di sini."
             />
           )
         ) : (
@@ -149,7 +150,7 @@ export default function StallList() {
             <div
               className={`${ui.eyebrow} bg-arang text-white px-5 py-3 flex justify-between gap-4`}
             >
-              <span>No · Warung</span>
+              <span>Warung</span>
               <span>{meta?.total ?? stalls.length} warung</span>
             </div>
 

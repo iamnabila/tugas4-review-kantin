@@ -6,9 +6,10 @@ export default function NotFound() {
     <main className="max-w-xl mx-auto my-16 px-6">
       <div className="bg-kunyit border-[3px] border-arang shadow-kotak p-8 flex flex-col items-start gap-4">
         <span className="font-display text-8xl leading-none">404</span>
-        <p className="text-lg font-semibold">Halaman tidak ditemukan.</p>
+        <h1 className={`${ui.title} text-2xl`}>Halaman tidak ditemukan</h1>
+        <p className="text-lg">Alamat yang kamu buka tidak tersedia.</p>
         <Link to="/" className={ui.btnSecondary}>
-          ← Ke papan warung
+          Kembali ke beranda
         </Link>
       </div>
     </main>

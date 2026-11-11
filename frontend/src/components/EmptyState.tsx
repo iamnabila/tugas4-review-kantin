@@ -1,21 +1,21 @@
 import { ui } from "../utils/ui";
 
 interface Props {
-  title?: string;
+  title: string;
   message: string;
   actionLabel?: string;
   onAction?: () => void;
 }
 
 export default function EmptyState({
-  title = "Nihil.",
+  title,
   message,
   actionLabel,
   onAction,
 }: Props) {
   return (
     <div className="bg-white border-[3px] border-dashed border-arang p-8 flex flex-col gap-4">
-      <span className={`${ui.title} text-5xl`}>{title}</span>
+      <h2 className={`${ui.title} text-4xl`}>{title}</h2>
       <p className="text-base">{message}</p>
       {actionLabel && onAction && (
         <button

@@ -75,11 +75,10 @@ export default function StallDetail() {
       <main className="max-w-xl mx-auto my-16 px-6">
         <div className="bg-kunyit border-[3px] border-arang shadow-kotak p-8 flex flex-col items-start gap-4">
           <span className="font-display text-8xl leading-none">404</span>
-          <p className="text-lg font-semibold">
-            Warung tidak ditemukan. Mungkin sudah dihapus.
-          </p>
+          <h1 className={`${ui.title} text-2xl`}>Warung tidak ditemukan</h1>
+          <p className="text-lg">Warung ini mungkin sudah dihapus.</p>
           <Link to="/" className={ui.btnSecondary}>
-            ← Ke papan warung
+            Kembali ke beranda
           </Link>
         </div>
       </main>
@@ -89,7 +88,10 @@ export default function StallDetail() {
   if (error || !stall) {
     return (
       <main className="max-w-6xl mx-auto px-6 py-10">
-        <ErrorMessage message={error || "Data warung kosong"} onRetry={load} />
+        <ErrorMessage
+          message={error || "Data warung tidak tersedia."}
+          onRetry={load}
+        />
       </main>
     );
   }
@@ -105,7 +107,7 @@ export default function StallDetail() {
         to="/"
         className="self-start font-mono text-sm font-bold uppercase border-b-[3px] border-arang"
       >
-        ← Kembali ke papan
+        ← Semua warung
       </Link>
 
       {/* Panel utama: nama + rating */}
@@ -121,9 +123,9 @@ export default function StallDetail() {
           <h1 className={`${ui.title} text-5xl md:text-7xl break-words`}>
             {stall.name}
           </h1>
-          <p className="text-xl font-medium">
-            {stall.description ?? "Belum ada deskripsi."}
-          </p>
+          {stall.description && (
+            <p className="text-xl font-medium">{stall.description}</p>
+          )}
         </div>
         <div className="flex-[1_1_240px] bg-kunyit border-t-[3px] md:border-t-0 md:border-l-[3px] border-arang p-8 flex flex-col justify-center gap-1">
           <span className={ui.eyebrow}>Rating rata-rata</span>
@@ -156,7 +158,7 @@ export default function StallDetail() {
           <div className="p-5 flex flex-col gap-1">
             <dt className={ui.eyebrow}>Populer</dt>
             <dd className="font-display text-xl uppercase">
-              {stall.isPopular ? "Ya" : "Belum"}
+              {stall.isPopular ? "Ya" : "Tidak"}
             </dd>
           </div>
         </dl>
@@ -164,12 +166,7 @@ export default function StallDetail() {
         {/* Panel Kelola: hanya muncul untuk yang punya hak */}
         {(showEdit || showDelete) && (
           <section className="flex-[1_1_280px] bg-arang text-white p-6 flex flex-col gap-4">
-            <h2 className="font-display text-2xl uppercase">Kelola</h2>
-            <p className="text-sm text-neutral-300">
-              {user?.role === "admin"
-                ? "Admin bisa mengubah dan menghapus semua warung."
-                : "Kamu pemilik warung ini, jadi bisa mengubah datanya."}
-            </p>
+            <h2 className="font-display text-2xl uppercase">Kelola warung</h2>
             {deleteError && (
               <p
                 role="alert"
@@ -184,7 +181,7 @@ export default function StallDetail() {
                   to={`/stalls/${stall.id}/edit`}
                   className="flex-1 h-12 flex items-center justify-center bg-kunyit text-arang border-[3px] border-white font-extrabold uppercase"
                 >
-                  Ubah
+                  Ubah data
                 </Link>
               )}
               {showDelete && (
@@ -193,7 +190,7 @@ export default function StallDetail() {
                   onClick={() => setConfirming(true)}
                   className="flex-1 h-12 bg-bata text-white border-[3px] border-white font-extrabold uppercase"
                 >
-                  Hapus
+                  Hapus warung
                 </button>
               )}
             </div>

@@ -27,7 +27,6 @@ const FIELDS: {
   key: keyof FormState;
   label: string;
   placeholder: string;
-  hint: string;
   required?: boolean;
   textarea?: boolean;
 }[] = [
@@ -35,26 +34,14 @@ const FIELDS: {
     key: "name",
     label: "Nama warung",
     placeholder: "contoh: Warung Bu Tini",
-    hint: "3–100 karakter",
     required: true,
   },
-  {
-    key: "category",
-    label: "Kategori",
-    placeholder: "Nasi, Kwetiau, ...",
-    hint: "maks. 50 karakter",
-  },
-  {
-    key: "location",
-    label: "Lokasi",
-    placeholder: "contoh: Kantin FKIP",
-    hint: "maks. 100 karakter",
-  },
+  { key: "category", label: "Kategori", placeholder: "contoh: Nasi" },
+  { key: "location", label: "Lokasi", placeholder: "contoh: Kantin FKIP" },
   {
     key: "description",
     label: "Deskripsi",
-    placeholder: "Menu andalan, jam buka, ciri khas",
-    hint: "maks. 1000 karakter",
+    placeholder: "Menu andalan, jam buka, atau ciri khas warung",
     textarea: true,
   },
 ];
@@ -117,7 +104,9 @@ export default function StallForm() {
         savedId = created.id;
       }
       navigate(`/stalls/${savedId}`, {
-        state: { toast: "Tersimpan ke database" },
+        state: {
+          toast: isEdit ? "Perubahan disimpan" : "Warung berhasil ditambahkan",
+        },
       });
     } catch (err) {
       if (axios.isAxiosError(err) && err.response?.status === 403)
@@ -159,27 +148,20 @@ export default function StallForm() {
             </>
           ) : (
             <>
-              Daftarkan
+              Tambah
               <br />
               Warung
             </>
           )}
         </h1>
         <p className="text-base">
-          Hanya nama yang wajib. Sisanya boleh dilengkapi kapan saja.
+          Lengkapi informasi warung supaya mudah ditemukan pelanggan.
         </p>
-        {user && (
-          <div className="bg-daun border-[3px] border-arang p-5 flex flex-col gap-2">
-            <span className={ui.eyebrow}>
-              {isEdit ? "Masuk sebagai" : "Pemilik otomatis"}
-            </span>
+        {user && !isEdit && (
+          <div className="bg-daun border-[3px] border-arang p-5 flex flex-col gap-1">
+            <span className={ui.eyebrow}>Pemilik</span>
             <span className="font-display text-xl uppercase">{user.name}</span>
             <span className="text-sm">{user.email}</span>
-            <span className="text-sm">
-              {isEdit
-                ? "Owner hanya bisa menyimpan perubahan untuk warung miliknya sendiri."
-                : "Warung dicatat atas nama akun yang sedang masuk. Hanya admin yang bisa menghapus."}
-            </span>
           </div>
         )}
       </aside>
@@ -195,8 +177,8 @@ export default function StallForm() {
             role="alert"
             className="bg-arang text-white px-5 py-3 border-b-[3px] border-arang flex flex-col gap-1"
           >
-            <span className="font-mono text-xs font-bold text-kunyit">
-              403 FORBIDDEN
+            <span className="font-mono text-xs font-bold uppercase text-kunyit">
+              Akses ditolak
             </span>
             <span className="font-bold">{formError}</span>
           </div>
@@ -204,10 +186,10 @@ export default function StallForm() {
           formError && (
             <div
               role="alert"
-              className="bg-bata text-white px-5 py-3 border-b-[3px] border-arang font-extrabold uppercase"
+              className="bg-bata text-white px-5 py-3 border-b-[3px] border-arang font-bold"
             >
               {hasFieldErrors
-                ? "Validasi gagal: perbaiki kolom bertanda merah"
+                ? "Periksa kembali isian yang ditandai."
                 : formError}
             </div>
           )
@@ -236,7 +218,7 @@ export default function StallForm() {
                     onChange={(e) => update(f.key, e.target.value)}
                     placeholder={f.placeholder}
                     aria-invalid={!!err}
-                    className={`w-full px-4 py-3 bg-white text-arang text-base border-[3px] ${err ? "border-bata" : "border-arang"} focus:outline-none focus:shadow-kotak-sm resize-y`}
+                    className={`w-full px-4 py-3 bg-white text-arang text-lg border-[3px] ${err ? "border-bata" : "border-arang"} focus:outline-none focus:shadow-kotak-sm resize-y`}
                   />
                 ) : (
                   <input
@@ -249,11 +231,10 @@ export default function StallForm() {
                     className={err ? ui.inputError : ui.input}
                   />
                 )}
-                {err ? (
-                  <span className={ui.fieldError}>{err}</span>
-                ) : (
-                  <span className="font-mono text-xs text-neutral-600">
-                    {f.textarea ? `${form.description.length} / 1000` : f.hint}
+                {err && <span className={ui.fieldError}>{err}</span>}
+                {!err && f.textarea && (
+                  <span className="self-end font-mono text-xs text-neutral-600">
+                    {form.description.length} / 1000
                   </span>
                 )}
               </div>
@@ -273,7 +254,7 @@ export default function StallForm() {
             disabled={submitting}
             className="flex-[2_1_240px] h-16 bg-arang text-kunyit text-lg font-extrabold uppercase tracking-wide disabled:opacity-60"
           >
-            {submitting ? "Menyimpan..." : "Simpan warung →"}
+            {submitting ? "Menyimpan..." : "Simpan"}
           </button>
         </div>
       </form>

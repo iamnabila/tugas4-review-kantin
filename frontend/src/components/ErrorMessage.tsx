@@ -7,7 +7,7 @@ interface Props {
 }
 
 export default function ErrorMessage({
-  title = "Putus.",
+  title = "Gagal memuat",
   message,
   onRetry,
 }: Props) {
@@ -16,7 +16,7 @@ export default function ErrorMessage({
       role="alert"
       className="bg-bata text-white border-[3px] border-arang shadow-kotak p-8 flex flex-col gap-4"
     >
-      <span className={`${ui.title} text-5xl`}>{title}</span>
+      <h2 className={`${ui.title} text-4xl`}>{title}</h2>
       <p className="font-semibold">{message}</p>
       {onRetry && (
         <button
@@ -24,7 +24,7 @@ export default function ErrorMessage({
           onClick={onRetry}
           className={`${ui.btnDark} self-start`}
         >
-          Coba lagi ↻
+          Coba lagi
         </button>
       )}
     </div>

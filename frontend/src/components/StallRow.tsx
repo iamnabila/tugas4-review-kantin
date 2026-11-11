@@ -22,12 +22,8 @@ export default function StallRow({ stall, number }: Props) {
 
       <span className="flex-[999_1_240px] min-w-0 flex flex-col gap-1">
         <span className={`${ui.title} text-2xl break-words`}>{stall.name}</span>
-        {stall.description ? (
+        {stall.description && (
           <span className="text-sm text-neutral-700">{stall.description}</span>
-        ) : (
-          <span className="text-sm italic text-neutral-500">
-            Belum ada deskripsi
-          </span>
         )}
       </span>
 
@@ -53,8 +49,8 @@ export default function StallRow({ stall, number }: Props) {
         </span>
       ) : (
         <span className="w-20 h-16 flex flex-col items-center justify-center bg-white border-[3px] border-dashed border-arang">
-          <span className="font-display text-xl leading-none">—</span>
-          <span className="font-mono text-[10px] font-bold">BELUM ADA</span>
+          <span className="font-display text-base leading-none">BARU</span>
+          <span className="font-mono text-[10px] font-bold">BELUM DIULAS</span>
         </span>
       )}
     </Link>

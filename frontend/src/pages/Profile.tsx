@@ -4,6 +4,7 @@ import { getErrorMessage } from "../lib/errors";
 import type { User } from "../types/api";
 import Loading from "../components/Loading";
 import ErrorMessage from "../components/ErrorMessage";
+import { roleLabel } from "../utils/permissions";
 import { ui } from "../utils/ui";
 
 export default function Profile() {
@@ -22,7 +23,7 @@ export default function Profile() {
   return (
     <main className="max-w-3xl mx-auto px-6 py-10 flex flex-col gap-6">
       <div className="flex flex-col gap-2">
-        <span className={ui.eyebrow}>Data dari GET /auth/me</span>
+        <span className={ui.eyebrow}>Akun saya</span>
         <h1 className={`${ui.title} text-5xl`}>Profil</h1>
       </div>
 
@@ -40,13 +41,15 @@ export default function Profile() {
             <dd className="text-lg font-semibold break-all">{me.email}</dd>
           </div>
           <div className="p-5 border-b-[3px] sm:border-b-0 sm:border-r-[3px] border-arang flex flex-col gap-1">
-            <dt className={ui.eyebrow}>Role</dt>
+            <dt className={ui.eyebrow}>Peran</dt>
             <dd>
-              <span className={`${ui.tag} bg-kunyit`}>{me.role}</span>
+              <span className={`${ui.tag} bg-kunyit`}>
+                {roleLabel[me.role]}
+              </span>
             </dd>
           </div>
           <div className="p-5 flex flex-col gap-1">
-            <dt className={ui.eyebrow}>Bergabung</dt>
+            <dt className={ui.eyebrow}>Bergabung sejak</dt>
             <dd className="text-lg font-semibold">
               {new Date(me.createdAt).toLocaleDateString("id-ID", {
                 day: "numeric",

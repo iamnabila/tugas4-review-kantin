@@ -3,19 +3,19 @@ import type { ApiFail } from "../types/api";
 
 export function getErrorMessage(error: unknown): string {
   if (!axios.isAxiosError<ApiFail>(error))
-    return "Terjadi kesalahan tak terduga";
+    return "Terjadi kesalahan. Coba lagi beberapa saat.";
   if (!error.response)
-    return "Tidak dapat terhubung ke server. Pastikan backend menyala.";
+    return "Tidak dapat terhubung ke server. Periksa koneksi, lalu coba lagi.";
   const fromBackend = error.response.data?.message;
   switch (error.response.status) {
     case 401:
-      return fromBackend ?? "Kamu perlu login dulu";
+      return fromBackend ?? "Silakan masuk terlebih dahulu.";
     case 403:
-      return fromBackend ?? "Kamu tidak punya akses untuk aksi ini";
+      return fromBackend ?? "Kamu tidak punya akses untuk tindakan ini.";
     case 404:
-      return fromBackend ?? "Data tidak ditemukan";
+      return fromBackend ?? "Data tidak ditemukan.";
     default:
-      return fromBackend ?? "Terjadi kesalahan pada server";
+      return fromBackend ?? "Terjadi kesalahan. Coba lagi beberapa saat.";
   }
 }
 

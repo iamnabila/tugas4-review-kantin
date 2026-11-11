@@ -1,6 +1,6 @@
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import { canCreate } from "../utils/permissions";
+import { canCreate, roleLabel } from "../utils/permissions";
 import type { Role } from "../types/api";
 import { ui } from "../utils/ui";
 
@@ -21,13 +21,10 @@ export default function Navbar() {
 
   return (
     <>
-      {/* strip info hitam */}
+      {/* strip hitam di paling atas */}
       <div className="bg-arang text-kunyit font-mono text-xs font-bold uppercase tracking-widest">
-        <div className="max-w-6xl mx-auto px-6 py-2 flex flex-wrap gap-x-6 gap-y-1">
-          <span>● Daftar warung terbuka tanpa login</span>
-          {user && (
-            <span className="text-daun">Masuk sebagai: {user.role}</span>
-          )}
+        <div className="max-w-6xl mx-auto px-6 py-2">
+          Rating &amp; ulasan warung kantin kampus
         </div>
       </div>
 
@@ -50,7 +47,7 @@ export default function Navbar() {
                 `px-2 py-2 font-extrabold uppercase tracking-wide ${isActive ? "underline decoration-[3px] underline-offset-[6px]" : ""}`
               }
             >
-              Daftar Warung
+              Warung
             </NavLink>
 
             {canCreate(user) && (
@@ -69,7 +66,7 @@ export default function Navbar() {
                   <span
                     className={`font-mono text-[11px] font-bold uppercase px-2 py-0.5 border-2 border-arang ${roleBadge[user.role]}`}
                   >
-                    {user.role}
+                    {roleLabel[user.role]}
                   </span>
                 </Link>
                 <button

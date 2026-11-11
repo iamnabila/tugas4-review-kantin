@@ -33,12 +33,16 @@ export default function Login() {
   }
 
   return (
-    <div className="min-h-screen flex flex-wrap">
+    <div className="min-h-screen grid lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)]">
       {toast && <Toast message={toast} onClose={clearToast} />}
 
-      {/* Kolom kiri: panel kunyit */}
-      <section className="flex-[1_1_420px] bg-kunyit border-r-[3px] border-arang p-10 flex flex-col justify-between gap-8">
-        <Link to="/" className="flex self-start">
+      {/* Panel kiri */}
+      <section className="bg-kunyit border-b-[3px] lg:border-b-0 lg:border-r-[3px] border-arang p-8 lg:p-12 flex flex-col justify-between gap-10">
+        <Link
+          to="/"
+          className="flex self-start"
+          aria-label="Ulas Kantin, ke beranda"
+        >
           <span className="font-display text-2xl leading-none bg-bata text-white px-3 py-2.5 border-[3px] border-arang">
             ULAS
           </span>
@@ -46,91 +50,102 @@ export default function Login() {
             KANTIN
           </span>
         </Link>
-        <h1 className={`${ui.title} text-7xl md:text-8xl`}>
-          Ma-
-          <br />
-          suk.
-        </h1>
-        <p className="text-lg font-medium max-w-[34ch]">
-          Owner mengelola warungnya, admin mengelola semuanya. Daftar warung
-          tetap bisa dilihat tanpa akun.
-        </p>
+        <div className="flex flex-col gap-4">
+          <h1 className={`${ui.title} text-5xl lg:text-7xl`}>
+            Selamat datang kembali.
+          </h1>
+          <p className="text-lg max-w-[36ch]">
+            Masuk untuk mengelola warung dan melihat profilmu.
+          </p>
+        </div>
+        <Link
+          to="/"
+          className="self-start font-mono text-sm font-bold uppercase border-b-[3px] border-arang"
+        >
+          ← Lihat daftar warung
+        </Link>
       </section>
 
-      {/* Kolom kanan: form */}
-      <section className="flex-[1_1_420px] flex items-center justify-center px-8 py-10">
-        <form
-          onSubmit={handleSubmit}
-          className="w-full max-w-md flex flex-col gap-5"
-        >
+      {/* Panel kanan: form */}
+      <section className="flex items-center justify-center px-6 py-12 lg:px-12">
+        <div className="w-full max-w-md flex flex-col gap-6">
+          <div className="flex flex-col gap-2">
+            <h2 className={`${ui.title} text-4xl`}>Masuk</h2>
+            <p>
+              Belum punya akun?{" "}
+              <Link
+                to="/register"
+                className="font-extrabold underline decoration-[3px] underline-offset-4"
+              >
+                Daftar di sini
+              </Link>
+            </p>
+          </div>
+
           {expired && (
             <div
               role="status"
               className="border-[3px] border-arang p-1.5 bg-[repeating-linear-gradient(-45deg,#E9C46A_0_12px,#1E1E1E_12px_24px)]"
             >
-              <div className="bg-white px-4 py-3 font-extrabold uppercase">
-                Sesi kamu habis, silakan login lagi.
+              <div className="bg-white px-4 py-3 font-bold">
+                Sesi kamu telah berakhir. Silakan masuk kembali.
               </div>
             </div>
           )}
 
-          {error && (
-            <div
-              role="alert"
-              className="bg-bata text-white border-[3px] border-arang px-4 py-3 font-extrabold uppercase"
-            >
-              {error}
-            </div>
-          )}
-
-          <div className="flex flex-col gap-2">
-            <label htmlFor="email" className={ui.label}>
-              Email
-            </label>
-            <input
-              id="email"
-              type="email"
-              required
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="nama@kantin.test"
-              className={ui.input}
-            />
-          </div>
-
-          <div className="flex flex-col gap-2">
-            <label htmlFor="password" className={ui.label}>
-              Password
-            </label>
-            <input
-              id="password"
-              type="password"
-              required
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="••••••••"
-              className={ui.input}
-            />
-          </div>
-
-          <button
-            type="submit"
-            disabled={submitting}
-            className={`${ui.btnPrimary} mt-1`}
+          <form
+            onSubmit={handleSubmit}
+            className={`${ui.panel} p-6 sm:p-8 flex flex-col gap-5`}
           >
-            {submitting ? "Memproses..." : "Masuk →"}
-          </button>
+            {error && (
+              <div
+                role="alert"
+                className="bg-bata text-white border-[3px] border-arang px-4 py-3 font-bold"
+              >
+                {error}
+              </div>
+            )}
 
-          <p className="font-semibold">
-            Belum punya akun?{" "}
-            <Link
-              to="/register"
-              className="font-extrabold underline decoration-[3px] underline-offset-4"
+            <div className="flex flex-col gap-2">
+              <label htmlFor="email" className={ui.label}>
+                Email
+              </label>
+              <input
+                id="email"
+                type="email"
+                required
+                autoComplete="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="nama@email.com"
+                className={ui.input}
+              />
+            </div>
+
+            <div className="flex flex-col gap-2">
+              <label htmlFor="password" className={ui.label}>
+                Password
+              </label>
+              <input
+                id="password"
+                type="password"
+                required
+                autoComplete="current-password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className={ui.input}
+              />
+            </div>
+
+            <button
+              type="submit"
+              disabled={submitting}
+              className={`${ui.btnPrimary} w-full mt-2`}
             >
-              Daftar sekarang
-            </Link>
-          </p>
-        </form>
+              {submitting ? "Memproses..." : "Masuk"}
+            </button>
+          </form>
+        </div>
       </section>
     </div>
   );
